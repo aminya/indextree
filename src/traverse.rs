@@ -348,6 +348,13 @@ impl NodeEdge {
             }
         }
     }
+
+    pub fn node_id(&self) -> NodeId {
+        match self {
+            NodeEdge::Start(node_id) => *node_id,
+            NodeEdge::End(node_id) => *node_id,
+        }
+    }
 }
 
 #[derive(Clone)]
@@ -384,16 +391,27 @@ impl<'a, T> Traverse<'a, T> {
         self.arena
     }
 
-    /// Returns the current node edge that the traverse iterator is on without consuming the iterator
+    /// Returns a reference the current node edge that the traverse iterator is on without consuming the iterator
     #[inline]
     pub fn current(&self) -> &Option<NodeEdge> {
         &self.next
+    }
+
+    /// Returns a mutable the current node edge that the traverse iterator is on without consuming the iterator
+    #[inline]
+    pub fn current_mut(&mut self) -> &mut Option<NodeEdge> {
+        &mut self.next
     }
 
     /// Returns the root that the iterator traverse started from
     #[inline]
     pub fn root(&self) -> NodeId {
         self.root
+    }
+
+    /// Returns the current node id
+    pub fn current_node_id(&self) -> Option<NodeId> {
+        self.current().map(|node_edge| node_edge.node_id())
     }
 }
 
