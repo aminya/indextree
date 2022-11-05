@@ -380,9 +380,20 @@ impl<'a, T> Traverse<'a, T> {
 
     /// Returns a reference to the arena.
     #[inline]
-    #[must_use]
-    pub(crate) fn arena(&self) -> &Arena<T> {
+    pub fn arena(&self) -> &Arena<T> {
         self.arena
+    }
+
+    /// Returns the current node edge that the traverse iterator is on without consuming the iterator
+    #[inline]
+    pub fn current(&self) -> &Option<NodeEdge> {
+        &self.next
+    }
+
+    /// Returns the root that the iterator traverse started from
+    #[inline]
+    pub fn root(&self) -> NodeId {
+        self.root
     }
 }
 
